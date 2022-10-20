@@ -4,6 +4,11 @@
 
 using namespace std;
 
+int opc, op, op1, op2, op3 , num, id_per;
+int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, resp, resp1, resp2, resp3;
+float acum;
+bool verifica=false;
+
 //Orden: id, descripcion, precio del producto, cantidad de producto, stock minimo
 string productos[20][4];
 //Orden: id, nombre, credito, adeudo
@@ -13,9 +18,29 @@ string ventas[50][3];
 //Total de toda la venta
 string ventast[5][4];
 
-int opc, opc1=1, opc2, opc3=1, opc4=1, resp, resp1, resp2, op, op1, num;
-float acum;
-bool verifica=false;
+int venta()
+{
+	system("cls");
+	cout<<"Seleccione el producto a vender: "<<'\n';
+	cin>>op;
+	cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n';
+	int f;
+	f=stof(productos[op][2]);
+	cout<<"Cantidad de productos a comprar: "<<'\n';
+	cin>>op1;
+	if (op1<0)
+	{
+		cout<<"Ingrese una cantidad correcta";
+	}
+	else if (op1>f)
+	{
+		cout<<"Ingrese una cantidad menor";
+	}
+	int cant;
+	cant=op1*f;
+	acum=acum+cant;
+	cout<<"El precio final es de: "<<acum<<'\n';
+}
 
 int productos_buscar()
 {
@@ -45,6 +70,93 @@ int productos_mostrar()
 	{
 		cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<"\t Stock minimo: "<<productos[l][4]<<'\n';        
 	}
+	cout<<"\n";
+}
+
+int productos_agregar()
+{
+	
+}
+
+int productos1()
+{
+	system("cls");
+	cout<<"-- PRODUCTOS --"<<'\n';
+	cout<<"[1] Buscar productos"<<'\n';
+	cout<<"[2] Mostrar productos"<<'\n';
+	cout<<"[3] Agregar productos"<<'\n';
+	cin>>op2;
+	switch (op2)
+	{
+		case 1:
+			productos_buscar();
+		break;
+			
+		case 2:
+			productos_mostrar();
+		break;	
+	}
+}
+
+int clientes_agregar()
+{
+	
+}
+
+int clientes_buscar()
+{
+	cout<<"Ingrese el id de la persona a buscar: "<<'\n';
+	cin>>id_per;
+	int e;
+	e=stof(clientes[id_per][0]);
+	for (int p=0;p<=20;p++)
+	{
+		for (int o=0;o<=4;o++)
+		{
+			if (id_per==e)
+			{
+				verifica = true;
+			}
+		}
+	}
+	if (verifica = true)
+	{
+		cout<<"Nombre del cliente: "<<clientes[id_per][1]<<"\t Credito: "<<clientes[id_per][2]<<"\t Adeudo: "<<clientes[id_per][3]<<'\n';        
+	}
+}
+
+int clientes_mostrar()
+{
+	for (int a=0;a<5;a++)
+	{
+		cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<'\n';        
+	}
+	cout<<"\n";
+}
+
+int clientes1()
+{
+		system("cls");
+		cout<<"-- C L I E N T E S --"<<'\n';
+		cout<<"[1] Agregar clientes"<<'\n';
+		cout<<"[2] Buscar clientes"<<'\n';
+		cout<<"[3] Mostar clientes"<<'\n';
+		cout<<"[4] Abonar clientes"<<'\n';
+		cin>>op2;
+		switch (op2)
+		{
+			case 1: 
+			
+			break;
+			
+			case 2:
+				clientes_buscar();	
+			break;
+			
+			case 3:
+				clientes_mostrar();
+			break;
+		}
 }
 
 int menu(void)
@@ -57,56 +169,13 @@ int menu(void)
 	cout<<"[6] Productos en stock"<<'\n';
 }
 
-int venta()
-{
-	system("cls");
-	cout<<"Seleccione el producto a vender: "<<'\n';
-	cin>>op;
-	cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n';
-	int f;
-	f=stof(productos[op][2]);
-	cout<<"Cantidad de productos a comprar: "<<'\n';
-	cin>>op1;
-	if (op1<0)
-	{
-		cout<<"Ingrese una cantidad correcta";
-	}
-	else if (op1>f)
-	{
-		cout<<"Ingrese una cantidad menor";
-	}
-	int cant;
-	cant=op1*f;
-	acum=acum+cant;
-	cout<<"El precio final es de: "<<acum<<'\n';
-}
-
-int productos1()
-{
-	system("cls");
-	cout<<"-- PRODUCTOS --"<<'\n';
-	cout<<"[1] Buscar productos"<<'\n';
-	cout<<"[2] Mostrar productos"<<'\n';
-	cout<<"[3] Agregar productos"<<'\n';
-	cin>>opc2;
-	switch (opc2)
-	{
-		case 1:
-			productos_buscar();
-		break;
-			
-		case 2:
-			productos_mostrar();
-		break;	
-	}
-}
 
 int main()
 {
 	//Llenado de la matriz de clientes
 	clientes[0][0]="0";clientes[0][1]="Carlos";clientes[0][2]="1000";clientes[0][3]="250";
-	clientes[1][0]="1";clientes[1][1]="Pablito";clientes[1][2]="700";clientes[1][3]="50";
-	clientes[2][0]="2";clientes[2][1]="Jarochos";clientes[2][2]="5000";clientes[2][3]="780";
+	clientes[1][0]="1";clientes[1][1]="Pablo";clientes[1][2]="700";clientes[1][3]="50";
+	clientes[2][0]="2";clientes[2][1]="Chapo";clientes[2][2]="5000";clientes[2][3]="780";
 	
 	//Llenado de la matriz de productos
 	productos[0][0]="0";productos[0][1]="Takis";productos[0][2]="15";productos[0][3]="20";productos[0][4]="10";
@@ -126,7 +195,7 @@ int main()
 					cout<<"Desea hacer otra compra? 1-Si -- 2-No"<<'\n';
 					cin>>resp;
 					system("cls");
-				} while (opc1==resp);
+				} while (opc2==resp);
 			break;
 				
 			case 2:
@@ -135,16 +204,19 @@ int main()
 					productos1();
 					cout<<"Desea hacer otra operacion? 1-Si -- 2-No"<<'\n';
 					cin>>resp2;	
-				}while (opc4==resp2);
+					system("cls");
+				}while (opc3==resp2);
 			break;			
 			
 			case 3:
-				system("cls");
-				cout<<"-- C L I E N T E S --"<<'\n';
-				cout<<"[1] Agregar clientes"<<'\n';
-				cout<<"[3] Buscar clientes"<<'\n';
-				cout<<"[1] Mostar clientes"<<'\n';
-				cout<<"[1] Abonar clientes"<<'\n';
+				do
+				{
+					clientes1();
+					cout<<"Desea hacer otra operacion? 1-Si -- 2-No"<<'\n';
+					cin>>resp3;
+					system("cls");
+				}while (opc4==resp3);
+				
 			break;
 			
 			case 4:
@@ -160,6 +232,6 @@ int main()
 		cout<<"Desea regresar al menu principal? 1-Si -- 2-No"<<'\n';
 		cin>>resp1;
 		system("cls");
-	}while (opc3==resp1);
+	}while (opc1==resp1);
 	
 } 
