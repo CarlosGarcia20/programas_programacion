@@ -8,11 +8,13 @@ int opc, op, op1, op2, op3 , num, id_per;
 int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, resp, resp1, resp2, resp3;
 float acum;
 bool verifica=false;
+string id_nombre, id_credito;
 
 //Orden: id, descripcion, precio del producto, cantidad de producto, stock minimo
 string productos[20][4];
 //Orden: id, nombre, credito, adeudo
 string clientes[5][4];
+int id_cliente=2;
 //Orden: cliente, cuantos productos, total de la venta
 string ventas[50][3];
 //Total de toda la venta
@@ -83,7 +85,7 @@ int productos1()
 	system("cls");
 	cout<<"-- PRODUCTOS --"<<'\n';
 	cout<<"[1] Buscar productos"<<'\n';
-	cout<<"[2] Mostrar productos"<<'\n';
+	cout<<"[2] Mostrar productos en stock"<<'\n';
 	cout<<"[3] Agregar productos"<<'\n';
 	cin>>op2;
 	switch (op2)
@@ -100,7 +102,17 @@ int productos1()
 
 int clientes_agregar()
 {
-	
+	string id_cliente1 = "";
+	id_cliente++;
+	cout<<"El ID asignado al nuevo cliente es "<<id_cliente<<'\n';
+	id_cliente1 = to_string(id_cliente);
+	clientes[id_cliente][0]=id_cliente1;
+	cout<<"Asigne el nombre del cliente: "<<'\n';
+	cin>>id_nombre;
+	clientes[id_cliente][1]=id_nombre;
+	cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
+	cin>>id_credito;
+	clientes[id_cliente][2]=id_credito;
 }
 
 int clientes_buscar()
@@ -146,7 +158,7 @@ int clientes1()
 		switch (op2)
 		{
 			case 1: 
-			
+				clientes_agregar();
 			break;
 			
 			case 2:
@@ -166,7 +178,6 @@ int menu(void)
 	cout<<"[2] Productos"<<'\n';
 	cout<<"[3] Clientes"<<'\n';
 	cout<<"[4] Registros de venta "<<'\n';
-	cout<<"[6] Productos en stock"<<'\n';
 }
 
 
@@ -229,8 +240,7 @@ int main()
 			default:
 				cout<<"Seleccione una opcion valida "<<'\n';
 		}
-		cout<<"Desea regresar al menu principal? 1-Si -- 2-No"<<'\n';
-		cin>>resp1;
+		resp1=1;
 		system("cls");
 	}while (opc1==resp1);
 	
