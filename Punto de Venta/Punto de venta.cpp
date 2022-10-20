@@ -20,63 +20,63 @@ string ventas[50][3];
 //Total de toda la venta
 string ventast[5][4];
 
-int venta()
-{
-	system("cls");
-	cout<<"Seleccione el producto a vender: "<<'\n';
-	cin>>op;
-	cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n';
-	int f;
-	f=stof(productos[op][2]);
-	cout<<"Cantidad de productos a comprar: "<<'\n';
-	cin>>op1;
-	if (op1<0)
+	int venta()
 	{
-		cout<<"Ingrese una cantidad correcta";
-	}
-	else if (op1>f)
-	{
-		cout<<"Ingrese una cantidad menor";
-	}
-	int cant;
-	cant=op1*f;
-	acum=acum+cant;
-	cout<<"El precio final es de: "<<acum<<'\n';
-}
-
-int productos_buscar()
-{
-	cout<<"Ingrese el id del producto a buscar: "<<'\n';
-	cin>>num;
-	int q;
-	q=stof(productos[num][0]);
-	for (int p=0;p<=20;p++)
-	{
-		for (int o=0;o<=4;o++)
+		system("cls");
+		cout<<"Seleccione el producto a vender: "<<'\n';
+		cin>>op;
+		cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n';
+		int f;
+		f=stof(productos[op][2]);
+		cout<<"Cantidad de productos a comprar: "<<'\n';
+		cin>>op1;
+		if (op1<0)
 		{
-			if (num==q)
+			cout<<"Ingrese una cantidad correcta";
+		}
+		else if (op1>f)
+		{
+			cout<<"Ingrese una cantidad menor";
+		}
+		int cant;
+		cant=op1*f;
+		acum=acum+cant;
+		cout<<"El precio final es de: "<<acum<<'\n';
+	}
+	
+	int productos_buscar()
+	{
+		cout<<"Ingrese el id del producto a buscar: "<<'\n';
+		cin>>num;
+		int q;
+		q=stof(productos[num][0]);
+		for (int p=0;p<=20;p++)
+		{
+			for (int o=0;o<=4;o++)
 			{
-				verifica = true;
+				if (num==q)
+				{
+					verifica = true;
+				}
 			}
 		}
+		if (verifica = true)
+		{
+			cout<<"Descripcion: "<<productos[num][1]<<"\t Precio: "<<productos[num][2]<<"\t Cantidad disponible: "<<productos[num][3]<<"\t Stock minimo: "<<productos[num][4]<<'\n';        
+		}
 	}
-	if (verifica = true)
+	
+	int productos_mostrar()
 	{
-		cout<<"Descripcion: "<<productos[num][1]<<"\t Precio: "<<productos[num][2]<<"\t Cantidad disponible: "<<productos[num][3]<<"\t Stock minimo: "<<productos[num][4]<<'\n';        
+		for (int l=0;l<20;l++)
+		{
+			cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<"\t Stock minimo: "<<productos[l][4]<<'\n';        
+		}
+		cout<<"\n";
 	}
-}
-
-int productos_mostrar()
-{
-	for (int l=0;l<20;l++)
+	
+	int productos_agregar()
 	{
-		cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<"\t Stock minimo: "<<productos[l][4]<<'\n';        
-	}
-	cout<<"\n";
-}
-
-int productos_agregar()
-{
 	
 }
 
@@ -100,51 +100,56 @@ int productos1()
 	}
 }
 
-int clientes_agregar()
-{
-	string id_cliente1 = "";
-	id_cliente++;
-	cout<<"El ID asignado al nuevo cliente es "<<id_cliente<<'\n';
-	id_cliente1 = to_string(id_cliente);
-	clientes[id_cliente][0]=id_cliente1;
-	cout<<"Asigne el nombre del cliente: "<<'\n';
-	cin>>id_nombre;
-	clientes[id_cliente][1]=id_nombre;
-	cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
-	cin>>id_credito;
-	clientes[id_cliente][2]=id_credito;
-}
-
-int clientes_buscar()
-{
-	cout<<"Ingrese el id de la persona a buscar: "<<'\n';
-	cin>>id_per;
-	int e;
-	e=stof(clientes[id_per][0]);
-	for (int p=0;p<=20;p++)
+	int clientes_agregar()
 	{
-		for (int o=0;o<=4;o++)
+		string id_cliente1 = "";
+		id_cliente++;
+		cout<<"El ID asignado al nuevo cliente es "<<id_cliente<<'\n';
+		id_cliente1 = to_string(id_cliente);
+		clientes[id_cliente][0]=id_cliente1;
+		cout<<"Asigne el nombre del cliente: "<<'\n';
+		cin>>id_nombre;
+		clientes[id_cliente][1]=id_nombre;
+		cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
+		cin>>id_credito;
+		clientes[id_cliente][2]=id_credito;
+	}
+	
+	int clientes_buscar()
+	{
+		cout<<"Ingrese el id de la persona a buscar: "<<'\n';
+		cin>>id_per;
+		int e;
+		e=stof(clientes[id_per][0]);
+		for (int p=0;p<=20;p++)
 		{
-			if (id_per==e)
+			for (int o=0;o<=4;o++)
 			{
-				verifica = true;
+				if (id_per==e)
+				{
+					verifica = true;
+				}
 			}
 		}
+		if (verifica = true)
+		{
+			cout<<"Nombre del cliente: "<<clientes[id_per][1]<<"\t Credito: "<<clientes[id_per][2]<<"\t Adeudo: "<<clientes[id_per][3]<<'\n';        
+		}
 	}
-	if (verifica = true)
+	
+	int clientes_mostrar()
 	{
-		cout<<"Nombre del cliente: "<<clientes[id_per][1]<<"\t Credito: "<<clientes[id_per][2]<<"\t Adeudo: "<<clientes[id_per][3]<<'\n';        
+		for (int a=0;a<5;a++)
+		{
+			cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<'\n';        
+		}
+		cout<<"\n";
 	}
-}
-
-int clientes_mostrar()
-{
-	for (int a=0;a<5;a++)
+	
+	int clientes_adeudo()
 	{
-		cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<'\n';        
+		
 	}
-	cout<<"\n";
-}
 
 int clientes1()
 {
@@ -153,7 +158,7 @@ int clientes1()
 		cout<<"[1] Agregar clientes"<<'\n';
 		cout<<"[2] Buscar clientes"<<'\n';
 		cout<<"[3] Mostar clientes"<<'\n';
-		cout<<"[4] Abonar clientes"<<'\n';
+		cout<<"[4] Abonar credito de clientes"<<'\n';
 		cin>>op2;
 		switch (op2)
 		{
@@ -167,6 +172,10 @@ int clientes1()
 			
 			case 3:
 				clientes_mostrar();
+			break;
+			
+			case 4:
+				clientes_adeudo();
 			break;
 		}
 }
