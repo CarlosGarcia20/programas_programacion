@@ -9,6 +9,7 @@ int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, resp, resp1, resp2, resp3;
 float acum;
 bool verifica=false;
 string id_nombre, id_credito;
+int id_credito1;
 
 //Orden: id, descripcion, precio del producto, cantidad de producto, stock minimo
 string productos[20][4];
@@ -112,6 +113,15 @@ int productos1()
 		clientes[id_cliente][1]=id_nombre;
 		cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
 		cin>>id_credito;
+		id_credito1 = stoi(id_credito);
+		while (id_credito1<0)
+		{
+			cout<<"El credito no puede ser menor a 0"<<'\n';
+			cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
+			cin>>id_credito;
+			id_credito1 = stoi(id_credito);
+		}
+		id_credito = to_string(id_credito1);
 		clientes[id_cliente][2]=id_credito;
 	}
 	
@@ -148,7 +158,27 @@ int productos1()
 	
 	int clientes_adeudo()
 	{
-		
+		int abono;
+		cout<<"Ingrese el ID del cliente: "<<'\n';
+		cin>>id_per;
+		int e;
+		e=stof(clientes[id_per][0]);
+		for (int p=0;p<=20;p++)
+		{
+			for (int o=0;o<=4;o++)
+			{
+				if (id_per==e)
+				{
+					verifica = true;
+				}
+			}
+		}
+		if (verifica = true)
+		{
+			cout<<"El adeudo del cliente "<<clientes[id_per][1]<<" es de "<<clientes[id_per][3]<<'\n';
+			cout<<"Caunto quiere abonar el cliente? "<<'\n';
+			cin>>abono;
+		}	
 	}
 
 int clientes1()
@@ -182,7 +212,7 @@ int clientes1()
 
 int menu(void)
 {
-	cout<<"-- P U N T O  D E  V E N T A  T O R O  L O C O --"<<'\n';
+	cout<<"-- P U N T O  D E  V E N T A  L A  E S Q U I N A --"<<'\n';
 	cout<<"[1] Vender"<<'\n';
 	cout<<"[2] Productos"<<'\n';
 	cout<<"[3] Clientes"<<'\n';
@@ -205,7 +235,7 @@ int main()
 	do
 	{
 		menu();
-		cin>>opc;
+		cout<<"Seleccione una opcion: ";cin>>opc;
 		switch (opc)
 		{
 			case 1:
