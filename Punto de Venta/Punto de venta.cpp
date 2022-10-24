@@ -9,7 +9,8 @@ int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, resp, resp1, resp2, resp3;
 float acum;
 bool verifica=false;
 string id_nombre, id_credito, id_nompro, id_stockac, id_stockmin, id_precio;
-int id_credito1, id_cliventa;
+int id_credito1, id_cliventa, can_stock;
+string can_stock1, respu;
 
 //Orden: id, descripcion, precio del producto, cantidad de producto, stock minimo
 string productos[20][5];
@@ -19,46 +20,55 @@ string clientes[5][4];
 int id_cliente=2;
 //Orden: cliente, cuantos productos, total de la venta
 string ventas[50][3];
-//Total de toda la venta
+//Total de toda la venta																	
 string ventast[5][4];
 
 	int venta()
 	{
 		system("cls");
-		//Para mostrar los datos de los clientes, asi como su credito disponible
-		for (int a=0;a<5;a++)
+		for (int a=0;a<5;a++)  //Para mostrar los datos de los clientes, asi como su credito disponible
 		{
-			cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<'\n';  //Agregar un valor a la matriz para saber el credito dispoible del cliente      
+			cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<'\n';  //Agregar un valor a la matriz para saber el credito dispoible del cliente      
 		}
 		cout<<"\n";
 		cout<<"Ingrese el ID del cliente: "<<'\n';
 		cin>>id_cliventa;
 		system("cls");
-		//Mostrar los datos de los productos disponibles en stock
-		for (int l=0;l<20;l++)
+		do
 		{
-			cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<'\n';        
-		}
-		cout<<"Seleccione el producto a vender: "<<'\n';
-		cin>>op;
-		cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n'; //Modificar la matriz productos para cuando se venda un producto este se vaya restando el stock disponible
-		int f;
-		//Transforma una variable string a float
-		f=stof(productos[op][2]);
-		cout<<"Cantidad de productos a comprar: "<<'\n';
-		cin>>op1;
-		if (op1<0)
-		{
-			cout<<"Ingrese una cantidad correcta";
-		}
-		else if (op1>f)
-		{
-			cout<<"Ingrese una cantidad menor";
-		}
-		int cant;
-		cant=op1*f;
-		acum=acum+cant;
-		cout<<"El precio final es de: "<<acum<<'\n';
+			for (int l=0;l<20;l++)  	//Mostrar los datos de los productos disponibles en stock
+			{
+				cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<'\n';        
+			}
+			cout<<"Seleccione el producto a vender: "<<'\n';
+			cin>>op;
+			int f;
+			f=stof(productos[op][2]); 	//Transforma una variable string a float
+			cout<<"Cantidad de productos a comprar: "<<'\n';
+			cin>>op1;
+			while (op1<=0)		//Valida si la cantidad a comprar no es menor 0
+			{
+				cout<<"Ingrese una cantidad correcta"<<'\n';
+				if (op1>f)
+				{
+					cout<<"Ingrese una cantidad menor"<<'\n';
+				}
+				cout<<"Cantidad de productos a comprar: "<<'\n';
+				cin>>op1;
+			}
+			int cant;
+			cant=op1*f;
+			acum=acum+cant;
+			cout<<"El precio final es de: "<<acum<<'\n';
+			can_stock = stoi(productos[op][3]);   		//Transforma datos de tipo string a int
+			can_stock=can_stock-op1;   					//Resta la cantidad comprada en los productos
+			can_stock1 = to_string(can_stock);  		//Transforma datos de tipo entero a cadena
+			productos[op][3]=can_stock1;
+			
+			cout<<"Desea hacer otra compra? (s/n)"<<'\n';
+			cin>>respu;
+			system("cls");
+		} while (respu=="s");
 	}
 	
 	int productos_buscar()
@@ -114,7 +124,7 @@ string ventast[5][4];
 		cin>>id_stockmin;
 		productos[id_producto][4]=id_stockmin;
 	}
-
+	
 int productos1()
 {
 	system("cls");
@@ -292,7 +302,7 @@ int main()
 				do
 				{
 					venta();
-					cout<<"Desea hacer otra compra? 1-Si -- 2-No"<<'\n';
+					cout<<"Desea seguir vendiendo? 1-Si -- 2-No"<<'\n';
 					cin>>resp;
 					system("cls");
 				} while (opc2==resp);
