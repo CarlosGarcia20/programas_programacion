@@ -8,11 +8,12 @@ int opc, op, op1, op2, op3 , num, id_per;
 int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, resp, resp1, resp2, resp3;
 float acum;
 bool verifica=false;
-string id_nombre, id_credito;
-int id_credito1;
+string id_nombre, id_credito, id_nompro, id_stockac, id_stockmin, id_precio;
+int id_credito1, id_cliventa;
 
 //Orden: id, descripcion, precio del producto, cantidad de producto, stock minimo
-string productos[20][4];
+string productos[20][5];
+int id_producto=2;
 //Orden: id, nombre, credito, adeudo
 string clientes[5][4];
 int id_cliente=2;
@@ -24,10 +25,25 @@ string ventast[5][4];
 	int venta()
 	{
 		system("cls");
+		//Para mostrar los datos de los clientes, asi como su credito disponible
+		for (int a=0;a<5;a++)
+		{
+			cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<'\n';  //Agregar un valor a la matriz para saber el credito dispoible del cliente      
+		}
+		cout<<"\n";
+		cout<<"Ingrese el ID del cliente: "<<'\n';
+		cin>>id_cliventa;
+		system("cls");
+		//Mostrar los datos de los productos disponibles en stock
+		for (int l=0;l<20;l++)
+		{
+			cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<'\n';        
+		}
 		cout<<"Seleccione el producto a vender: "<<'\n';
 		cin>>op;
-		cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n';
+		cout<<"Cantidad de "<<productos[op][1]<<" que hay disponible: "<<productos[op][3]<<'\n'; //Modificar la matriz productos para cuando se venda un producto este se vaya restando el stock disponible
 		int f;
+		//Transforma una variable string a float
 		f=stof(productos[op][2]);
 		cout<<"Cantidad de productos a comprar: "<<'\n';
 		cin>>op1;
@@ -50,6 +66,7 @@ string ventast[5][4];
 		cout<<"Ingrese el id del producto a buscar: "<<'\n';
 		cin>>num;
 		int q;
+		//Transforma una variable string a float
 		q=stof(productos[num][0]);
 		for (int p=0;p<=20;p++)
 		{
@@ -78,8 +95,25 @@ string ventast[5][4];
 	
 	int productos_agregar()
 	{
-	
-}
+		string id_productos1 = "";
+		id_producto++;
+		cout<<"El ID asignado al nuevo producto es "<<id_producto<<'\n';
+		
+		id_productos1 = to_string(id_producto);  //Transforma variables de datos int a dato string 
+		productos[id_producto][0]=id_productos1;    //En estos tipos de codigo se agrega la variable a la fila y columna que corresponde 
+		cout<<"Añada la descripcion del producto: "<<'\n';
+		cin>>id_nompro;
+		productos[id_producto][1]=id_nompro;
+		cout<<"Cual es el precio del producto: "<<'\n';
+		cin>>id_precio;
+		productos[id_producto][2]=id_precio;
+		cout<<"Cual es el stock actual: "<<'\n';
+		cin>>id_stockac;
+		productos[id_producto][3]=id_stockac;
+		cout<<"Cual es el stock minimo del producto "<<id_nompro<<"?"<<'\n';
+		cin>>id_stockmin;
+		productos[id_producto][4]=id_stockmin;
+	}
 
 int productos1()
 {
@@ -97,7 +131,11 @@ int productos1()
 			
 		case 2:
 			productos_mostrar();
-		break;	
+		break;
+		
+		case 3:
+			productos_agregar();
+		break;
 	}
 }
 
@@ -106,31 +144,31 @@ int productos1()
 		string id_cliente1 = "";
 		id_cliente++;
 		cout<<"El ID asignado al nuevo cliente es "<<id_cliente<<'\n';
-		id_cliente1 = to_string(id_cliente);
+		id_cliente1 = to_string(id_cliente);  		//Transforma datos de tipo entero a cadena
 		clientes[id_cliente][0]=id_cliente1;
 		cout<<"Asigne el nombre del cliente: "<<'\n';
 		cin>>id_nombre;
 		clientes[id_cliente][1]=id_nombre;
 		cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
 		cin>>id_credito;
-		id_credito1 = stoi(id_credito);
+		id_credito1 = stoi(id_credito);   		//Transforma datos de tipo string a int
 		while (id_credito1<0)
 		{
 			cout<<"El credito no puede ser menor a 0"<<'\n';
 			cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<'\n';
 			cin>>id_credito;
-			id_credito1 = stoi(id_credito);
+			id_credito1 = stoi(id_credito);   //Transforma datos de tipo string a int
 		}
-		id_credito = to_string(id_credito1);
+		id_credito = to_string(id_credito1);  //Transforma datos de tipo entero a cadena 
 		clientes[id_cliente][2]=id_credito;
 	}
 	
 	int clientes_buscar()
 	{
-		cout<<"Ingrese el id de la persona a buscar: "<<'\n';
+		cout<<"Ingrese el ID de la persona a buscar: "<<'\n';
 		cin>>id_per;
 		int e;
-		e=stof(clientes[id_per][0]);
+		e=stof(clientes[id_per][0]);  //Transforma datos de tipo cadena a float
 		for (int p=0;p<=20;p++)
 		{
 			for (int o=0;o<=4;o++)
@@ -145,6 +183,10 @@ int productos1()
 		{
 			cout<<"Nombre del cliente: "<<clientes[id_per][1]<<"\t Credito: "<<clientes[id_per][2]<<"\t Adeudo: "<<clientes[id_per][3]<<'\n';        
 		}
+		else
+		{
+			cout<<"Ingrese un ID valido"<<'\n';
+		}
 	}
 	
 	int clientes_mostrar()
@@ -158,11 +200,12 @@ int productos1()
 	
 	int clientes_adeudo()
 	{
-		int abono;
+		int abono, res;
+		int acum1;
 		cout<<"Ingrese el ID del cliente: "<<'\n';
 		cin>>id_per;
 		int e;
-		e=stof(clientes[id_per][0]);
+		e=stof(clientes[id_per][0]);   //Transforma datos de tipo cadena a float
 		for (int p=0;p<=20;p++)
 		{
 			for (int o=0;o<=4;o++)
@@ -176,9 +219,16 @@ int productos1()
 		if (verifica = true)
 		{
 			cout<<"El adeudo del cliente "<<clientes[id_per][1]<<" es de "<<clientes[id_per][3]<<'\n';
-			cout<<"Caunto quiere abonar el cliente? "<<'\n';
+			cout<<"Cuanto quiere abonar el cliente? "<<'\n';
 			cin>>abono;
+			int s;
+			s=stof(clientes[id_per][3]);  //Transforma datos de tipo cadena a float
+			res=s-abono;
+			cout<<"El abono a realizar es de: "<<abono<<'\n';
+			cout<<"Su nuevo saldo es de: "<<res<<'\n';
 		}	
+		string adeudo_nue = to_string(res);  //Tranforma datos de tipo entero a cadena
+		clientes[id_per][3]=adeudo_nue;
 	}
 
 int clientes1()
@@ -278,6 +328,7 @@ int main()
 				
 			default:
 				cout<<"Seleccione una opcion valida "<<'\n';
+				system("pause");
 		}
 		resp1=1;
 		system("cls");
