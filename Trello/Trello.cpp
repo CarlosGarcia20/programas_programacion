@@ -12,7 +12,11 @@ bool verifica=false;
 //Orden: correo, contraseña, nombre, apellidos
 string usuarios[5][5];
 int id_user=1;
-string tableros[5], espacios[5][4];
+string tableros[5];
+
+string espacios[5][4];
+string tipo_espa[8]={"Marketing", "Ingenieria y TI", "Educacion", "CRM de ventas", "Recursos humanos", "Operaciones", "Empresa pequeña"};
+string nom_esp, sel_esp;
 
 void tableros_menu()
 {
@@ -21,7 +25,15 @@ void tableros_menu()
 
 void espacio_nue()
 {
-	
+	cout<<"Nombre del espacio de trabajo: "<<endl;
+	cin>>nom_esp;
+	cout<<"Tipo de espacio de trabajo"<<endl;
+	for (int i=0;i<7;i++)
+	{
+		cout<<"["<<i+1<<"] "<<tipo_espa[i]<<endl;
+	}
+	cout<<"[8] Otro"<<endl;
+	cin>>sel_esp;
 }
 
 void espacio_ver()
@@ -172,7 +184,6 @@ int main()
 			break;
 			
 			case 2:
-				inicio();
 				menu_inicio();
 			break;
 			
