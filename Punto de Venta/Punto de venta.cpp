@@ -6,7 +6,7 @@
 using namespace std;
 
 int opc, op, op1, op2, op3 , num, id_per;
-int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, resp, resp1, resp2, resp3;
+int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, opc6=1, resp, resp1, resp2, resp3, resp4;
 float acum, precio;
 bool verifica=false;
 string id_nombre, id_credito, id_nompro, id_stockac, id_stockmin, id_precio;
@@ -19,8 +19,10 @@ int id_producto=2;
 //Orden: id, nombre, credito, adeudo
 string clientes[5][4];
 int id_cliente=2;
-//Orden: cliente, cuantos productos, total de la venta
+//Orden: cliente ID, cuantos productos, total de la venta
 string ventas[50][3];
+int identi=-1;
+string id_ven, pro_ven, total;
 //Total de toda la venta																	
 string ventast[5][4];
 
@@ -41,10 +43,13 @@ int venta()
 	system("cls");
 	for (int a=0;a<id_cliente+1;a++)  //Para mostrar los datos de los clientes, asi como su credito disponible
 	{
-		cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<endl;     
+		cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t\t Adeudo: "<<clientes[a][3]<<endl;     
 	}
 	cout<<"Ingrese el ID del cliente: "<<endl;
 	cin>>id_cliventa;
+	//Aqui se guarda el Id del cliente en la matriz del cliente
+	id_ven=to_string(id_cliventa);
+	ventas[identi+1][0]=id_ven;
 	if(id_cliventa>id_cliente)
 	{
 		cout<<"Ingrese un Id valido"<<endl;
@@ -86,9 +91,17 @@ int venta()
 						cin>>op1;
 					}
 				} while (op1<1 || op1>can_stock);
+				//Aqui se registran los productos comprados para guardarlos en la matriz de ventas
+				pro_ven=to_string(op1);
+				ventas[identi+1][1]=pro_ven;
+				//
 				cant=op1*precio;
 				acum=acum+cant;
 				cout<<"El precio final es de: "<<acum<<endl;
+				//Aqui se registran los datos de venta para guardarlos en la matriz de ventas
+				total=to_string(acum);
+				ventas[identi+1][2]=total;
+				//
 				stock_min = stoi(productos[op][4]);			//Transforma datos de tipo string a int de los datos de stock minimo
 				can_stock = can_stock-op1;   				//Resta la cantidad comprada en los productos
 				if (can_stock<stock_min)
@@ -110,13 +123,22 @@ int venta()
 				}
 				else if (pago=="c" || pago=="credito")
 				{
-					float adeudo_venta;
-					adeudo_venta=stof(clientes[id_cliventa][3]);
+					int adeudo_venta;
+					//Aqui se hacen las operaciones para poder agregar el adeudo nuevo a la matriz
+					adeudo_venta=stoi(clientes[id_cliventa][3]);
 					adeudo_venta=adeudo_venta+acum;
 					cout<<"Su nuevo adeudo es de "<<adeudo_venta<<endl;
 					string adeudo_nuevo;
 					adeudo_nuevo = to_string(adeudo_venta);
+					//Aqui se agrega el dato del adeudo a la matriz
 					clientes[id_cliventa][3]=adeudo_nuevo;
+					//Aqui se hacen las oepraciones para poder restarle al credito disponible lo que ha gastado de este
+					int credito_venta;
+					credito=stoi(clientes[id_cliventa][2]);
+					credito_venta=credito-acum;
+					string credito_ventas=to_string(credito_venta);
+					//Aqui se agrega el nuevo credito a la matriz
+					clientes[id_cliventa][2]=credito_ventas;
 				}
 			}
 			cout<<"Desea hacer otra compra? (s/n)"<<endl;
@@ -383,6 +405,35 @@ int clientes1()
 		}
 }
 
+int venta_total()
+{
+	cout<<"-- V E N T A S  T O T A L E S --"<<endl;
+	cout<<"------------------------------------------"<<endl;
+	for (int i=0;i<=identi+1;i++)
+	{
+		cout<<"ID del cliente: "<<ventas[i][0]<<"\t\t Productos totales: "<<ventas[i][1]<<"\t\t Precio final: "<<ventas[i][2]<<endl;
+	}
+}
+
+int ven_menu()
+{
+	system("cls");
+	cout<<"-- R E G I S T R O  D E  V E N T A S --"<<endl;
+	cout<<"[1] Ver ventas totales"<<endl;
+	cin>>opc;
+	switch(opc)
+	{
+		case 1:
+			venta_total();
+		break;
+		
+		default:
+			cout<<"Seleccione una opcion valida"<<endl;
+		break;
+
+	}
+}
+
 int menu(void)
 {
 	cout<<"[1] Vender"<<endl;
@@ -439,10 +490,14 @@ int main()
 			break;
 			
 			case 4:
-				system("cls");
-				cout<<"-- R E G I S T R O  D E  V E N T A S --"<<endl;
-				cout<<"[1] Ver ventas totales"<<endl;
-				cout<<"[2] Ver ventas individuales"<<endl;
+				do
+				{
+					ven_menu();
+					cout<<"Desea hacer otra operacion? 1-Si -- 2-No"<<endl;
+					cin>>resp4;
+					system("cls");
+				} while(opc6==resp4);
+				
 			break;
 				
 			default:
