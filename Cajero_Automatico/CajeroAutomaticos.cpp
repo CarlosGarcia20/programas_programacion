@@ -1,331 +1,172 @@
 #include <iostream>
+#include <conio.h>
+#include <string>
+#include <string.h>
+
+using namespace std;
 
 //En este apartado se declaran variables globales para el buen funcionamiento del programa
-int num_cue, cuenta1=415287, cuenta2=668254, cuenta3=787945;
-int resp, op=1, opc_men, user, nip, nip_nuevo, nip1=1234, nip2=1212, nip3=8789;
-float can_dep, can_ret, can_tran, saldo, saldo_cue1=2250, saldo_cue2=5000, saldo_cue3=800;
+//Descripcion: Numero de cuenta, nip, saldo de la cuenta
+int cuentas[5][4];
+int resp, op=1, opc_men, user, nip, num_cue, var, acum;
+bool verifica = false;
+string respu;
+float can_dep, can_ret, can_tran, saldo, saldo_cuenta;
 
-//Aqui se validan los nips para poder decidir si se entra al programa o n
-int nips()
+//Aqui se validan los nips para poder decidir si se entra al programa o no
+int incio_cuentas()
 {
-	if (nip==nip1 || nip==nip2 || nip==nip3) 
+	cout<<"Hola, bienvenido al cajero automatico"<<endl;
+	do
 	{
-		std::cout<<"NIP correcto."<<'\n';
-	}
-	else 
-	{
-		std::cout<<"NIP incorrecto."<<'\n';
-		exit(0);
-	}
+		cout<<"-------------------------------------------------------"<<endl;
+		cout<<"Escriba su numero de cuenta: "<<endl;
+		cin>>num_cue;
+		for (int i=0;i<4;i++)
+		{
+			if (num_cue==cuentas[i][0])
+			{
+				verifica = true;
+				var = num_cue;
+			}
+		}
+		if (verifica == false)
+		{
+			cout<<"Numero de cuenta incorreta"<<endl;
+		}
+		else
+		{
+			while (acum!=1)
+			{
+				verifica = false;
+				cout<<"Ingrese su NIP: "<<endl;
+				cin>>nip;
+				for (int i=0;i<4;i++)
+				{
+					if (nip==cuentas[i][1])
+					{
+						verifica = true;
+					}
+				}
+				if (verifica == false)
+				{
+					cout<<"NIP incorrecto"<<endl;
+				}
+				else
+				{
+					cout<<"Bienvenido"<<endl;
+					acum=acum+1;
+				}	
+			}
+		}
+	} while (verifica==false);
 }
 
 //Esta funcion permite al usuario ingresar dinero a la cuenta
 void deposito()
 {
-	switch (nip)
+	do
 	{
-		case 1234:
-			std::cout<<"Ingrese la cantidad a depositar: "<<'\n';
-			std::cin>>can_dep;
-			std::cout<<"La cantidad a depositar es de "<< can_dep <<'\n';
-			
-			saldo_cue1=saldo_cue1+can_dep;
-			std::cout<<"El saldo disponible es de "<<saldo_cue1<<'\n';
-		break;
+		cout<<"Ingrese la cantidad a depositar: "<<endl;
+		cin>>can_dep;
+		cout<<"La cantidad a depositar es de "<<can_dep<<endl;
+		saldo_cuenta = cuentas[var][2];
+		saldo=saldo_cuenta+can_dep;
+		cout<<"El saldo nuevo es de "<<saldo<<endl;
+		cuentas[var][2]=saldo;
 		
-		case 1212:
-			std::cout<<"Ingrese la cantidad a depositar: "<<'\n';
-			std::cin>>can_dep;
-			std::cout<<"La cantidad a depositar es de "<< can_dep <<'\n';
-			
-			saldo_cue2=saldo_cue2+can_dep;
-			std::cout<<"El saldo disponible es de "<<saldo_cue2<<'\n';
-		break;
-		
-		case 8789:
-			std::cout<<"Ingrese la cantidad a depositar: "<<'\n';
-			std::cin>>can_dep;
-			std::cout<<"La cantidad a depositar es de "<< can_dep <<'\n';
-			
-			saldo_cue3=saldo_cue3+can_dep;
-			std::cout<<"El saldo disponible es de "<<saldo_cue3<<'\n';
-		break;
-	}
-	
+		cout<<"Desea hacer otro deposito"<<endl;
+		cin>>respu;
+	} while (respu=="s");	
 }
 
 //Esta funcion permite al usuario retirar dinero de la cuenta, pero tambien te limita si el dinero a retirar es mayor a lo que se tiene disponible
 void retiro()
 {
-	switch (nip)
+	cout<<"Ingrese la cantidad a retirar: "<<endl;
+	cin>>can_ret;
+	cout<<"La cantidad a retirar es de "<< can_ret <<endl;
+	
+	if (saldo>=can_ret) 
 	{
-		case 1234:
-			std::cout<<"Ingrese la cantidad a retirar: "<<'\n';
-			std::cin>>can_ret;
-			std::cout<<"La cantidad a retirar es de "<< can_ret <<'\n';
-			
-			if (saldo_cue1>=can_ret) 
-			{
-				saldo_cue1=saldo_cue1-can_ret;
-			}
-			else
-			{
-				std::cout<<"No cuenta con suficiente saldo"<<'\n';
-			}
-			
-			std::cout<<"Su saldo actual es de "<<saldo_cue1<<'\n';
-		break;
-			
-		case 1212:
-			std::cout<<"Ingrese la cantidad a retirar: "<<'\n';
-			std::cin>>can_ret;
-			std::cout<<"La cantidad a retirar es de "<< can_ret <<'\n';
-			
-			if (saldo_cue2>=can_ret) 
-			{
-				saldo_cue2=saldo_cue2-can_ret;
-			}
-			else
-			{
-				std::cout<<"No cuenta con suficiente saldo"<<'\n';
-			}
-			
-			std::cout<<"Su saldo actual es de "<<saldo_cue2<<'\n';
-		break;
-		
-		case 8789:
-			std::cout<<"Ingrese la cantidad a retirar: "<<'\n';
-			std::cin>>can_ret;
-			std::cout<<"La cantidad a retirar es de "<< can_ret <<'\n';
-			
-			if (saldo_cue3>=can_ret) 
-			{
-				saldo_cue3=saldo_cue3-can_ret;
-			}
-			else
-			{
-				std::cout<<"No cuenta con suficiente saldo"<<'\n';
-			}
-			
-			std::cout<<"Su saldo actual es de "<<saldo_cue3<<'\n';
-		break;
+		saldo=saldo-can_ret;
 	}
+	else
+	{
+		cout<<"No cuenta con suficiente saldo"<<endl;
+	}
+	cout<<"Su saldo actual es de "<<saldo<<endl;
 }
 
 //Esta funcion permite consultar el saldo disponible de la cuenta 
 void saldo_men()
 {
-	switch (nip)
-	{
-		case 1234: 
-			std::cout<<"Su saldo actual es de "<< saldo_cue1 <<'\n';
-		break;
-		
-		case 1212:
-			std::cout<<"Su saldo actual es de "<<saldo_cue2<<'\n';
-		break;
-		
-		case 8789:
-			std::cout<<"Su saldo actual es de "<<saldo_cue3<<'\n';
-		break;
-	}
+	cout<<"Su saldo actual es de "<<saldo<<endl;
 }
 
 //Esta funcion permite cambiar el nip por defecto que se tiene al iniciar el programa
 void cambio()
 {
-	switch (nip)
-	{
-		case 1234:
-			std::cout<<"Ingrese su NIP: "<<'\n';
-			std::cin>>nip;
-			do
-			{
-				std::cout<<"El NIP es incorrecto. Introduzcalo de nuevo: "<<'\n';
-				std::cin>>nip;
-			} while (nip!=nip1);
-			
-			system("cls");
-			std::cout<<"Ingrese el nuevo NIP: "<<'\n';
-			std::cin>>nip_nuevo;
-			nip1=nip_nuevo;
-		break;
-			
-		case 1212:
-			std::cout<<"Ingrese su NIP: "<<'\n';
-			std::cin>>nip;
-			do
-			{
-				std::cout<<"El NIP es incorrecto. Introduzcalo de nuevo: "<<'\n';
-				std::cin>>nip;
-			} while (nip!=nip2);
-			
-			system("cls");
-			std::cout<<"Ingrese el nuevo NIP: "<<'\n';
-			std::cin>>nip_nuevo;
-			nip2=nip_nuevo;
-		break;	
-		
-		case 8789:
-			std::cout<<"Ingrese su NIP: "<<'\n';
-			std::cin>>nip;
-			do
-			{
-				std::cout<<"El NIP es incorrecto. Introduzcalo de nuevo: "<<'\n';
-				std::cin>>nip;
-			} while (nip!=nip3);
-			
-			system("cls");
-			std::cout<<"Ingrese el nuevo NIP: "<<'\n';
-			std::cin>>nip_nuevo;
-			nip3=nip_nuevo;
-		break;		
-	}
+	
 }
 
 //Esta funcion permite mandar dinero de una cuenta a otra 
 void transferencias()
 {
-	switch (nip)
+ 
+}
+
+
+void menu_prin()
+{
+	incio_cuentas();
+	cout<<"---------------------------------------------------------------------------------------"<<endl;
+	cout<<"[1] Deposito"<<endl;
+	cout<<"[2] Retiro"<<endl;
+	cout<<"[3] Consulta de saldo"<<endl;
+	cout<<"[4] Cambio de nip"<<endl;
+	cout<<"[5] Transferencia"<<endl;
+	cout<<"[6] Salir"<<endl;
+	cout<<"Que desea hacer?"<<endl;
+	cin>>opc_men;
+	switch (opc_men)
 	{
-		case 1234:
-			std::cout<<"Ingrese el numero de cuenta a transferir: "<<'\n';
-			std::cin>>num_cue;
-			if (num_cue==cuenta2 || num_cue==cuenta3)
-			{
-				std::cout<<"Ingrese la cantidad de dinero a transferir: "<<'\n';
-				std::cin>>can_tran;
-				if(can_tran>saldo_cue1)
-				{
-					do
-					{
-						std::cout<<"No tienes la cantidad de dinero suficiente para transferir. Tu saldo actual es de "<<saldo_cue1<<'\n';
-						std::cout<<"Ingrese la cantidad de dinero a transferir: "<<'\n';
-						std::cin>>can_tran;
-					} while (can_tran>saldo_cue1);
-					
-				}
-				saldo_cue1=saldo_cue1-can_tran;
-				std::cout<<"La transferencia ha sido exitosa. Tu saldo actual es de "<<saldo_cue1<<'\n';
-			}
-			else
-			{
-				std::cout<<"Numero de cuenta incorrecta. Ingrese un numero de cuenta existente"<<'\n';
-			}
+		case 1: 
+			system("cls");
+			deposito();	
 		break;
 		
-		case 1212:
-			std::cout<<"Ingrese el numero de cuenta a transferir: "<<'\n';
-			std::cin>>num_cue;
-			if (num_cue==cuenta1 || num_cue==cuenta3)
-			{
-				std::cout<<"Ingrese la cantidad de dinero a transferir: "<<'\n';
-				std::cin>>can_tran;
-				if(can_tran>saldo_cue2)
-				{
-					do
-					{
-						std::cout<<"No tienes la cantidad de dinero suficiente para transferir. Tu saldo actual es de "<<saldo_cue2<<'\n';
-						std::cout<<"Ingrese la cantidad de dinero a transferir: "<<'\n';
-						std::cin>>can_tran;
-					} while (can_tran>saldo_cue2);
-					
-				}
-				saldo_cue2=saldo_cue2-can_tran;
-				std::cout<<"La transferencia ha sido exitosa. Tu saldo actual es de "<<saldo_cue2<<'\n';
-			}
-			else
-			{
-				std::cout<<"Numero de cuenta incorrecta. Ingrese un numero de cuenta existente"<<'\n';
-			}
+		case 2:
+			system("cls");
+			retiro();
 		break;
 		
+		case 3:
+			system("cls");
+			saldo_men();
+		break;
 		
-		case 8789:
-			std::cout<<"Ingrese el numero de cuenta a transferir: "<<'\n';
-			std::cin>>num_cue;
-			if (num_cue==cuenta1 || num_cue==cuenta2)
-			{
-				std::cout<<"Ingrese la cantidad de dinero a transferir: "<<'\n';
-				std::cin>>can_tran;
-				if(can_tran>saldo_cue3)
-				{
-					do
-					{
-						std::cout<<"No tienes la cantidad de dinero suficiente para transferir. Tu saldo actual es de "<<saldo_cue3<<'\n';
-						std::cout<<"Ingrese la cantidad de dinero a transferir: "<<'\n';
-						std::cin>>can_tran;
-					} while (can_tran>saldo_cue3);
-					
-				}
-				saldo_cue3=saldo_cue3-can_tran;
-				std::cout<<"La transferencia ha sido exitosa. Tu saldo actual es de "<<saldo_cue3<<'\n';
-			}
-			else
-			{
-				std::cout<<"Numero de cuenta incorrecta. Ingrese un numero de cuenta existente"<<'\n';
-			}
+		case 4:
+			system("cls");
+			cambio();
+		break;
+		
+		case 5:
+			system("cls");
+			transferencias();
 		break;
 	}
-	
 }
 
 //Aqui inicia el programa principal, se utilizaron funciones y varios elementos del lenguaje para poder hacer posible su realizacion
 int main()
 {	
-	std::cout<<"Hola, Bienvenido A UAS ATM. Escriba su NIP a continuacion: "<<'\n';
-	std::cin>>nip;
-	nips();
-	do
-	{
-		std::cout<<"---------------------------------------------------------------------------------------"<<'\n';
-		std::cout<<"Deposito\t\t [1]"<<'\n';
-		std::cout<<"Retiro\t\t\t [2]"<<'\n';
-		std::cout<<"Consulta de saldo\t [3]"<<'\n';
-		std::cout<<"Cambio de nip\t\t [4]"<<'\n';
-		std::cout<<"Transferencia\t\t [5]"<<'\n';
-		std::cout<<"Salir \t\t\t [6]"<<'\n';
-		std::cin>>opc_men;
+	//Llenado de la matriz
+	cuentas[0][0]=41231;cuentas[0][1]=1234;cuentas[0][2]=2250;
+	cuentas[1][0]=41232;cuentas[1][1]=1212;cuentas[1][2]=5000;
+	cuentas[2][0]=41233;cuentas[2][1]=8789;cuentas[2][2]=800;
+	
+	menu_prin();
 
-
-		switch (opc_men)
-		{
-			case 1: 
-				system("cls");
-				deposito();	
-			break;
-			
-			case 2:
-				system("cls");
-				retiro();
-			break;
-			
-			case 3:
-				system("cls");
-				saldo_men();
-			break;
-			
-			case 4:
-				system("cls");
-				cambio();
-			break;
-			
-			case 5:
-				system("cls");
-				transferencias();
-			break;
-			
-			case 6:
-				std::cout<<"Saliendo...";
-				exit(0);
-		
-			default:
-				std::cout<<"Por favor seleccione una opcion valida"<<'\n';	
-		}
-		std::cout<<"Desea hacer alguna otra operacion? 1-Si -- 2-No"<<'\n';
-		std::cin>>resp;
-		system("cls");
-		
-	}while (op==resp);
 	return 0;	
 }
