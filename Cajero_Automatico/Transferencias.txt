@@ -1,0 +1,3 @@
+Error. Ingrese un numero de cuenta correcto
+Numero de cuenta0
+Error. Ingrese un numero de cuenta correcto
