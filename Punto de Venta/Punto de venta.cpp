@@ -10,7 +10,7 @@ int opc1=1, opc2=1, opc3=1, opc4=1, opc5=1, opc6=1, resp, resp1, resp2, resp3, r
 float acum, precio;
 bool verifica=false;
 string id_nombre, id_credito, id_nompro, id_stockac, id_stockmin, id_precio;
-int id_credito1, id_cliventa, can_stock, stock_min, cant, credito, credito_acum;
+int id_credito1, id_cliventa, can_stock, stock_min, cant, credito, credito_acum, produ_com, precio_total;
 string can_stock1, respu, pago;
 
 //Orden: id, descripcion, precio del producto, cantidad de producto, stock minimo
@@ -49,7 +49,8 @@ int venta()
 	cin>>id_cliventa;
 	//Aqui se guarda el Id del cliente en la matriz del cliente
 	id_ven=to_string(id_cliventa);
-	ventas[identi+1][0]=id_ven;
+	identi=identi+1;
+	ventas[identi][0]=id_ven;
 	if(id_cliventa>id_cliente)
 	{
 		cout<<"Ingrese un Id valido"<<endl;
@@ -92,15 +93,19 @@ int venta()
 					}
 				} while (op1<1 || op1>can_stock);
 				//Aqui se registran los productos comprados para guardarlos en la matriz de ventas
-				pro_ven=to_string(op1);
-				ventas[identi+1][1]=pro_ven;
+				produ_com=produ_com+op1;
+				pro_ven=to_string(produ_com);
+				ventas[identi][1]=pro_ven;
+				produ_com=0;
 				//
 				cant=op1*precio;
 				acum=acum+cant;
 				cout<<"El precio final es de: "<<acum<<endl;
 				//Aqui se registran los datos de venta para guardarlos en la matriz de ventas
-				total=to_string(acum);
-				ventas[identi+1][2]=total;
+				precio_total=precio_total+acum;
+				total=to_string(precio_total);
+				ventas[identi][2]=total;
+				precio_total=0;
 				//
 				stock_min = stoi(productos[op][4]);			//Transforma datos de tipo string a int de los datos de stock minimo
 				can_stock = can_stock-op1;   				//Resta la cantidad comprada en los productos
@@ -409,7 +414,7 @@ int venta_total()
 {
 	cout<<"-- V E N T A S  T O T A L E S --"<<endl;
 	cout<<"------------------------------------------"<<endl;
-	for (int i=0;i<=identi+1;i++)
+	for (int i=0;i<=3;i++)
 	{
 		cout<<"ID del cliente: "<<ventas[i][0]<<"\t\t Productos totales: "<<ventas[i][1]<<"\t\t Precio final: "<<ventas[i][2]<<endl;
 	}
