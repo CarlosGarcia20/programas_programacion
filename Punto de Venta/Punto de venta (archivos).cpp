@@ -162,7 +162,8 @@ int venta()
 			acum=0;
 		} while (respu=="s");
 	}
-	archivo.close();					//Se cierra el archivo de texto
+		archivo<<"------------------------------------------------------------------"<<endl;
+		archivo.close();					//Se cierra el archivo de texto
 }
 
 int productos_buscar()
@@ -196,11 +197,15 @@ int productos_buscar()
 
 int productos_mostrar()
 {
+		archivo.open("Productos en stock.txt", ios::app);
 	for (int l=0;l<id_producto+1;l++)
 	{
-		cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<"\t Stock minimo: "<<productos[l][4]<<endl;;        
+		cout<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<"\t Stock minimo: "<<productos[l][4]<<endl;
+			archivo<<"ID del producto: "<<productos[l][0]<<"\t Descripcion: "<<productos[l][1]<<"\t Precio: "<<productos[l][2]<<"\t Cantidad disponible: "<<productos[l][3]<<"\t Stock minimo: "<<productos[l][4]<<endl;;       
 	}
 	cout<<"\n";
+		archivo<<"-----------------------------------------------------------------------------------------------------------------------"<<endl;
+		archivo.close();
 }
 
 int productos_agregar()
@@ -333,11 +338,15 @@ int clientes_buscar()
 
 int clientes_mostrar()
 {
+		archivo.open("Registro de clientes.txt", ios::app);
 	for (int a=0;a<id_cliente+1;a++)
 	{
-		cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<endl;        
+		cout<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<endl; 
+			archivo<<"ID del cliente: "<<clientes[a][0]<<"\t\t Nombre: "<<clientes[a][1]<<"\t\t Credito: "<<clientes[a][2]<<"\t Adeudo: "<<clientes[a][3]<<endl;       
 	}
 	cout<<"\n";
+		archivo<<"-----------------------------------------------------------------------------------------------------"<<endl;
+		archivo.close();
 }
 
 int clientes_adeudo()
@@ -382,6 +391,7 @@ int clientes_adeudo()
 				if (res<=0)
 				{
 					cout<<"¡Felicidades!, ha saldado su adeudo en  L A  T I E N D I T A  D E  L A  E S Q U I N A"<<endl;
+						archivo<<"¡Felicidades!, el cliente ha saldado su cuenta"<<endl;
 					if(abono>adeudo)
 					{
 						abono=abono-adeudo;
@@ -394,15 +404,16 @@ int clientes_adeudo()
 				{
 					cout<<"Su nuevo saldo es de: "<<res<<endl;
 					credito_acum = credito + abono;
-					}
+						archivo<<"El nuevo saldo del cliente es de "<<res<<endl;
 				}
-				
-			}
+			}	
 			else
 			{
 				cout<<"El cliente no tiene adeudos. ¡Felicidades!"<<endl;
+					archivo<<"El cliente no tiene adeudos"<<endl;
 			}
 		}
+	}
 	string credito_nue = to_string(credito_acum);		//Transforma datos de tipo entero a cadena, para poder aumentar el credito del cliente y guardarlo en la matriz
 	clientes[id_per][2]= credito_nue;
 	string adeudo_nue = to_string(res);  			//Tranforma datos de tipo entero a cadena, para guardar el adeudo nuevo en la matriz 
@@ -413,49 +424,52 @@ int clientes_adeudo()
 
 int clientes1()
 {
-		system("cls");
-		cout<<"-- C L I E N T E S --"<<endl;
-		cout<<"[1] Agregar clientes"<<endl;
-		cout<<"[2] Buscar clientes"<<endl;
-		cout<<"[3] Mostar clientes"<<endl;
-		cout<<"[4] Abonar credito de clientes"<<endl;
-		cin>>op2;
-		switch (op2)
-		{
-			case 1: 
-				clientes_agregar();
-			break;
-			
-			case 2:
-				clientes_buscar();	
-			break;
-			
-			case 3:
-				clientes_mostrar();
-			break;
-			
-			case 4:
-				clientes_adeudo();
-			break;
-		}
+	system("cls");
+	cout<<"-- C L I E N T E S --"<<endl;
+	cout<<"[1] Agregar clientes"<<endl;
+	cout<<"[2] Buscar clientes"<<endl;
+	cout<<"[3] Mostar clientes"<<endl;
+	cout<<"[4] Abonar credito de clientes"<<endl;
+	cin>>op2;
+	switch (op2)
+	{
+		case 1: 
+			clientes_agregar();
+		break;
+		
+		case 2:
+			clientes_buscar();	
+		break;
+		
+		case 3:
+			clientes_mostrar();
+		break;
+		
+		case 4:
+			clientes_adeudo();
+		break;
+	}
 }
 
 int venta_total()
 {
+		archivo.open("Registro de ventas totales.txt", ios::app);
 	cout<<"-- V E N T A S  T O T A L E S --"<<endl;
 	cout<<"------------------------------------------"<<endl;
 	for (int i=0;i<=3;i++)
 	{
 		cout<<"ID del cliente: "<<ventas[i][0]<<"\t\t Productos totales: "<<ventas[i][1]<<"\t\t Precio final: "<<ventas[i][2]<<endl;
+			archivo<<"ID del cliente: "<<ventas[i][0]<<"\t\t Productos totales: "<<ventas[i][1]<<"\t\t Precio final: "<<ventas[i][2]<<endl;
 	}
+		archivo<<"--------------------------------------------------------------------------------"<<endl;
+		archivo.close();
 }
 
 int ven_menu()
 {
 	system("cls");
 	cout<<"-- R E G I S T R O  D E  V E N T A S --"<<endl;
-	cout<<"[1] Ver ventas totales"<<endl;
-	cin>>opc;
+	opc=1;
 	switch(opc)
 	{
 		case 1:
