@@ -1,7 +1,6 @@
 #include <iostream>
 #include <conio.h>
 #include <string>
-#include <string.h>
 #include <stdlib.h>
 #include <fstream>
 
@@ -10,7 +9,8 @@ using namespace std;
 //En este apartado se declaran variables globales para el buen funcionamiento del programa
 //Descripcion: Numero de cuenta, nip, saldo de la cuenta
 float cuentas[5][4];
-int mov[5];
+string mov[5][5];
+int m[5];
 int mov_dep, mov_ret, mov_con, mov_tran, mov_cam;
 int id=2;
 int resp, op=1, opc_men, user, nip, num_cue, num_cuetrans;
@@ -71,6 +71,11 @@ void deposito()
 	cout<<"El saldo nuevo es de "<<saldo<<endl;
 		archivo<<"El saldo nuevo es de "<<saldo<<endl;					//Se guarda el nuevo saldo disponible en el archivo de texto
 	cuentas[num_cue][2]=saldo;
+	m[num_cue]=m[num_cue]+1;
+	mov[num_cue][m[num_cue]].append("Deposito: ");						//Este apartado es para poder registrar los movimientos
+	string temp=to_string(can_dep);
+	mov[num_cue][m[num_cue]].append(temp);
+	mov[num_cue][m[num_cue]].append("\n");
 		archivo.close();												//Se cierra el archivo de texto
 }
 
@@ -90,7 +95,11 @@ void retiro()
 		cuentas[num_cue][2]=saldo_ret;
 		cout<<"Su saldo actual es de "<<saldo_ret<<endl;
 			archivo<<"Su saldo actual es de "<<saldo_ret<<endl;
-		mov_ret=mov_ret+1;
+		m[num_cue]=m[num_cue]+1;
+		mov[num_cue][m[num_cue]].append("Retiro: ");						//Este apartado es para poder registrar los movimientos
+		string temp=to_string(can_ret);
+		mov[num_cue][m[num_cue]].append(temp);
+		mov[num_cue][m[num_cue]].append("\n");
 	}
 	else
 	{
@@ -109,6 +118,11 @@ void saldo_men()
 	cout<<"Su saldo actual es de "<<cuentas[num_cue][2]<<endl;
 		archivo<<"El saldo de la cuenta "<<num_cue<<" es "<<cuentas[num_cue][2]<<endl;
 		archivo.close();
+		m[num_cue]=m[num_cue]+1;
+		mov[num_cue][m[num_cue]].append("El saldo a consultar fue de: ");					//Este apartado es para poder registrar los movimientos
+		string temp=to_string(cuentas[num_cue][2]);
+		mov[num_cue][m[num_cue]].append(temp);
+		mov[num_cue][m[num_cue]].append("\n");
 }
 
 //Esta funcion permite cambiar el nip por defecto que se tiene al iniciar el programa
@@ -126,7 +140,9 @@ void cambio()
 		cuentas[num_cue][1]=nip_nue;
 		cout<<"Su NIP ha sido cambiado"<<endl;
 			archivo<<"El NIP de la cuenta "<<num_cue<<" ha sido cambiado"<<endl;
-		mov_cam=mov_cam+1;
+		m[num_cue]=m[num_cue]+1;
+		mov[num_cue][m[num_cue]].append("El cambio de NIP fue exitoso");						//Este apartado es para poder registrar los movimientos
+		mov[num_cue][m[num_cue]].append("\n");
 	}
 	else
 	{
@@ -165,7 +181,11 @@ void transferencias()
 			saldo_cuetran=cuentas[num_cuetrans][2];
 			saldo_cuetran=saldo_cuetran+can_tran;
 			cuentas[num_cuetrans][2]=saldo_cuetran;
-			mov_tran=mov_tran+1;
+			m[num_cue]=m[num_cue]+1;
+			mov[num_cue][m[num_cue]].append("La transferencia fue de: ");						//Este apartado es para poder registrar los movimientos
+			string temp=to_string(can_tran);
+			mov[num_cue][m[num_cue]].append(temp);
+			mov[num_cue][m[num_cue]].append("\n");
 		}
 		else
 		{
@@ -180,8 +200,16 @@ void transferencias()
 
 void movimientos()
 {
+		archivo.open("Movimientos.txt", ios::app);
 	cout<<"-- U L T I M O S  5  M O V I M I E N T O S --"<<endl;
-		
+	for (int i=0;i<=m[num_cue];i++)
+	{
+		cout<<"Movimiento "<<i<<endl;
+		cout<<"\n"<<mov[num_cue][i]<<endl;
+			archivo<<"Movimiento "<<i<<endl;
+			archivo<<"\n"<<mov[num_cue][i]<<endl;
+	}
+		archivo.close();
 }
 
 int menu()
@@ -194,7 +222,8 @@ int menu()
 		cout<<"[3] Consulta de saldo"<<endl;
 		cout<<"[4] Cambio de nip"<<endl;
 		cout<<"[5] Transferencia"<<endl;
-		cout<<"[6] Salir"<<endl;
+		cout<<"[6] Ultimos movimientos"<<endl;
+		cout<<"[7] Salir"<<endl;
 		cout<<"Que desea hacer?"<<endl;
 		cin>>opc_men;
 		switch (opc_men)
@@ -225,8 +254,13 @@ int menu()
 				system("cls");
 				transferencias();
 			break;
+			
+			case 6:
+				system("cls");
+				movimientos();
+			break;
 		}
-	} while (opc_men!=6);
+	} while (opc_men!=7);
 }
 
 //Aqui inicia el programa principal, se utilizaron funciones y varios elementos del lenguaje para poder hacer posible su realizacion
