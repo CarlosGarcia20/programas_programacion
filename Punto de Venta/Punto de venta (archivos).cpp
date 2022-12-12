@@ -230,15 +230,36 @@ int productos_agregar()
 		productos[id_producto][1]=id_nompro;
 		cout<<"Cual es el precio del producto: "<<endl;
 		cin>>id_precio;
+		int pre_neg = stoi(id_precio);
+		while (pre_neg<0 || pre_neg==0)
+		{
+			cout<<"Error. No es posible asignar ese precio, ingrese otro"<<endl;
+			cin>>id_precio;
+			pre_neg = stoi(id_precio);
+		}	
 			archivo<<"El precio del producto es "<<id_precio<<endl;
 		productos[id_producto][2]=id_precio;
 		cout<<"Cual es el stock actual: "<<endl;
 		cin>>id_stockac;
+		int stock_neg = stoi(id_stockac);
+		while (stock_neg<0 || stock_neg==0)
+		{
+			cout<<"Error. No es posible agregar esa cantidad, ingrese otra"<<endl;
+			cin>>id_stockac;
+			stock_neg = stoi(id_stockac);
+		}
 			archivo<<"El stock actual del producto es "<<id_stockac<<endl;
 		productos[id_producto][3]=id_stockac;
 		cout<<"Cual es el stock minimo del producto "<<id_nompro<<"?"<<endl;
 		cin>>id_stockmin;
-			archivo<<"El stock minimo del producto es de "<<id_stockac<<endl;
+		int stockmin = stoi(id_stockmin);
+		while (stockmin<0 || stockmin==0)
+		{
+			cout<<"Error. No es posible agregar esa cantidad"<<endl;
+			cin>>id_stockmin;
+			stockmin = stoi(id_stockmin);
+		}
+			archivo<<"El stock minimo del producto es de "<<id_stockmin<<endl;
 		productos[id_producto][4]=id_stockmin;
 			archivo<<"--------------------------------------------------------------------"<<endl;
 	}
@@ -285,13 +306,14 @@ int clientes_agregar()
 		id_cliente1 = to_string(id_cliente);  		//Transforma datos de tipo entero a cadena. Se le da el valor que tiene el Id nuevo pero en formato de cadena
 		clientes[id_cliente][0]=id_cliente1;		//Se agrega el Id a la matriz
 		cout<<"Asigne el nombre del cliente: "<<endl;
-		cin>>id_nombre;
+		getline (cin, id_nombre);
+		getline (cin, id_nombre);
 			archivo<<"El nombre del cliente es: "<<id_nombre<<endl;
 		clientes[id_cliente][1]=id_nombre;
 		cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<endl;
 		cin>>id_credito;
 		id_credito1 = stoi(id_credito);   		//Transforma datos de tipo string a int. Se transforma para poder evaluar si es mayor a 0
-		while (id_credito1<0)
+		while (id_credito1<0 || id_credito1==0)
 		{
 			cout<<"El credito no puede ser menor a 0 pesos"<<endl;
 			cout<<"Cuanto credito desea darle a "<<id_nombre<<" ?"<<endl;
