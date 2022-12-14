@@ -15,7 +15,7 @@ int id=2;
 string mov[5][5];
 int m[5];
 int mov_dep, mov_ret, mov_con, mov_tran, mov_cam;
-int resp, op=1, opc_men, user, nip,	nip_nue, num_cue, num_cuetrans, var, acum, opor, siempre, temp_temp;
+int resp, op=1, opc_men, user, nip,	nip_nue, num_cue, num_cuetrans, var=1, acum, opor, siempre=1, temp_temp;
 string respu, temp_nip;
 bool verifica=false;
 float can_dep, can_ret, can_tran, saldo, saldo_cuenta, saldo_ret, saldo_tran, saldo_cuetran;
@@ -24,42 +24,34 @@ ofstream archivo;
 //Aqui se validan los nips para poder decidir si se entra al programa o no
 int inicio_cuentas()
 {
+	cout<<"Bienvenido al cajero automatico"<<endl;
 	do
 	{
-		num_cue=0;
-		nip=0;
-		var=0;
-		cout<<"Bienvenido al cajero automatico"<<endl;
 		cout<<"-------------------------------------------------------"<<endl;
 		cout<<"Escriba su numero de cuenta: "<<endl;
 		cin>>num_cue;
-		if (num_cue>id || num_cue<0)												//Aqui se valida si la cuenta ha ingresar esta registrada en la matriz, si no marcara error y se le pedira al usuario ingresarla de nuevo
+		while (num_cue>id || num_cue<0)												//Aqui se valida si la cuenta ha ingresar esta registrada en la matriz, si no marcara error y se le pedira al usuario ingresarla de nuevo
 		{
 			cout<<"Ingrese un numero de cuenta correcto"<<endl;
-			var=1;
-		}	
-		else																		//Si la validacion anterior es falsa, se procedera a preguntarle al usuario cual es el nip
-		{
-			do
-			{
-				cout<<"Ingrese su NIP: "<<endl;
-				cin>>nip;
-				if (nip==cuentas[num_cue][1])										//En esta validacion se le pregunta al usuario si el nip ingresado es el mismo que se encuentra en la matriz
-				{
-					verifica = true;
-				}
-				if (verifica == true)												//Si la validacion es cierta entrara al programa si no se le seguira preguntando al usuario por el NIP
-				{
-					cout<<"Bienvenido"<<endl;
-					nip=0;
-					num_cue=0;
-				}
-				else
-				{
-					cout<<"NIP incorrecto"<<endl;	
-				}
-			} while (verifica==false);
+			cin>>num_cue;
 		}
+		int temp = cuentas[num_cue][1];												//Variable temporal que guarda el valor del nip
+		do
+		{
+			var=0;																	//Se le da el valor de 0 para que pueda salirse del ciclo principal
+			cout<<"Ingrese su NIP: "<<endl;
+			cin>>nip;
+			while (nip!=temp)														//Evalua si el nip introducido es igual al que se encuentra registrado
+			{
+				cout<<"NIP incorrecto"<<endl;
+				cin>>nip;	
+			}
+			if (nip==temp)															//Evaluacion valida y procede a acceder al sistema
+			{
+				verifica = true;
+				system("cls");
+			}
+		} while (verifica==false);													//Ciclo que sirve para que permita seguir introduciendo el nip hasta 3 intentos
 	}while(var==1);	
 }
 
@@ -344,7 +336,6 @@ int main()
 	{
 		inicio_cuentas();
 		menu();
-		siempre=1;
 	} while (siempre==1);
 		
 	return 0;	
