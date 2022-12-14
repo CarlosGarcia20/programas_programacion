@@ -9,7 +9,7 @@ using namespace std;
 
 //En este apartado se declaran variables globales para el buen funcionamiento del programa
 //Descripcion: Numero de cuenta, nip, saldo de la cuenta
-float cuentas[5][4];
+float cuentas[5][3];
 int id=2;
 //En esta matriz se guardan los movimientos de cada cuenta
 string mov[5][5];
@@ -141,12 +141,11 @@ void saldo_men()
 		archivo.open("Consulta_de_saldos.txt", ios::app);
 	cout<<"Su saldo actual es de "<<cuentas[num_cue][2]<<endl;
 		archivo<<"El saldo de la cuenta "<<num_cue<<" es "<<cuentas[num_cue][2]<<endl;		//En el apartado que dice archivos se guardan los datos de las consultas
-		archivo.close();
-		m[num_cue]=m[num_cue]+1;
-		mov[num_cue][m[num_cue]].append("El saldo a consultar fue de: ");					//Este apartado es para poder registrar los movimientos
-		string temp=to_string(cuentas[num_cue][2]);
-		mov[num_cue][m[num_cue]].append(temp);
-		mov[num_cue][m[num_cue]].append("\n");
+	m[num_cue]=m[num_cue]+1;
+	mov[num_cue][m[num_cue]].append("El saldo a consultar fue de: ");					//Este apartado es para poder registrar los movimientos
+	string temp=to_string(cuentas[num_cue][2]);
+	mov[num_cue][m[num_cue]].append(temp);
+	mov[num_cue][m[num_cue]].append("\n");
 		archivo<<"----------------------------------------------------------------"<<endl;
 		archivo.close();
 }
@@ -324,14 +323,31 @@ int menu()
 	} while (opc_men!=7);
 }
 
-//Aqui inicia el programa principal, se utilizaron funciones y varios elementos del lenguaje para poder hacer posible su realizacion
-int main()
-{	
+void guardado()
+{
 	//Llenado de la matriz
 	cuentas[0][0]=0;cuentas[0][1]=1234;cuentas[0][2]=2250;
 	cuentas[1][0]=1;cuentas[1][1]=1212;cuentas[1][2]=5000;
 	cuentas[2][0]=2;cuentas[2][1]=8789;cuentas[2][2]=800;
+	
+	//Guardado de la matriz en archivos
+		archivo.open("Base de datos.txt", ios::app);
+	for (int i=0;i<=id;i++)
+	{
+		for (int j=0;j<3;j++)
+		{
+				archivo<<cuentas[i][j]<<" ";
+		}
+			archivo<<'\n';
+	}
+		archivo<<'\n';
+		archivo.close();
+}
 
+//Aqui inicia el programa principal, se utilizaron funciones y varios elementos del lenguaje para poder hacer posible su realizacion
+int main()
+{	
+	guardado();
 	do
 	{
 		inicio_cuentas();
