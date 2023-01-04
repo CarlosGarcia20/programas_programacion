@@ -1,65 +1,139 @@
 #include <iostream>
+#include <stdio.h>
+#include <conio.h>
+#include <windows.h>
 
 using namespace std;
 
 //Declaraciones de variables
-string correo_reg, contra_reg, nombre_reg, ape_reg;
-string correo, contra;
-int opc, opc_ini, opc_esp, acum;
-bool verifica=false;
+string correo_reg, contra_reg, nombre_reg, nom_tab;
+string correo, contra, espacio;
+int opc, opc_ini, opc_esp, acum, var=1, x=6, y=5, a=0, b=0;
+bool verifica=false, vercorreo=false;
+void gotoxy(int x,int y){  
+  HANDLE hcon;  
+  hcon = GetStdHandle(STD_OUTPUT_HANDLE);  
+  COORD dwPos;  
+  dwPos.X = x;  
+  dwPos.Y= y;  
+  SetConsoleCursorPosition(hcon,dwPos);  
+ }  
 
 //Declaraciones de matrices
-//Orden: correo, contraseña, nombre, apellidos
-string usuarios[5][5];
+//Orden: correo, contraseña, nombre
+string usuarios[5][3];
 int id_user=1;
 string tableros[5];
 
-string espacios[5][4];
-string tipo_espa[8]={"Marketing", "Ingenieria y TI", "Educacion", "CRM de ventas", "Recursos humanos", "Operaciones", "Empresa pequeña"};
-string nom_esp, sel_esp;
+string espacios[5][5];
+string nom_esp;
 
-void tableros_menu()
+void crear_tab()
 {
-	
+	cout<<"Ingrese el nombre del tablero "<<endl;
+	getline(cin, nom_tab);
+	getline(cin, nom_tab);
+	system("cls");
 }
+
+
+void menu_espacio()
+{
+	do
+	{
+		gotoxy(0,0);cout<<"------------------------------------------------------------------------------------------------------------------------"<<endl;
+		gotoxy(50,1);cout<<"Espacio de trabajo "<<espacio<<endl;
+		gotoxy(0,2);cout<<"------------------------------------------------------------------------------------------------------------------------"<<endl;
+		gotoxy(5,3);cout<<"Miembros del espacio de trabajo: "<<endl;
+		gotoxy(5,4);cout<<"Administradores: "<<endl;
+		gotoxy(5,6);cout<<correo;
+		gotoxy(40,4);cout<<"Invitados: "<<endl;
+		gotoxy(70,4);cout<<"Tableros: "<<endl;
+		gotoxy(5,20);cout<<"[1] Crear tablero"<<endl;
+		gotoxy(5,21);cout<<"[2] Entrar a un tablero"<<endl;
+		gotoxy(5,22);cout<<"[3] Añadir a un miembro"<<endl;
+		gotoxy(5,23);cout<<"[4] Salir"<<endl;
+		gotoxy(5,24);cout<<"Que desea hacer? "<<endl;
+		gotoxy(22,24);cin>>opc;
+		switch(opc)
+		{
+			case 1: 
+				system("cls");
+				crear_tab();
+				gotoxy(70,6);cout<<"*"<<nom_tab;
+			break;
+			
+			case 2:
+			
+			break;
+			
+			case 3:
+				
+			break;
+		}
+	}while (opc!=4);
+}
+
 
 void espacio_nue()
 {
-	cout<<"Nombre del espacio de trabajo: "<<endl;
-	cin>>nom_esp;
-	cout<<"Tipo de espacio de trabajo"<<endl;
-	for (int i=0;i<7;i++)
-	{
-		cout<<"["<<i+1<<"] "<<tipo_espa[i]<<endl;
-	}
-	cout<<"[8] Otro"<<endl;
-	cin>>sel_esp;
-}
-
-void espacio_ver()
-{
-	
+	gotoxy(40,12);cout<<"Nombre del espacio de trabajo: ";
+	getline(cin,nom_esp);
+	getline(cin,nom_esp);
+	espacios[a][b]=nom_esp;
+	a++; b++;
+	system("cls");
 }
 
 void espacios_menu()
 {
-	cout<<"-- E S P A C I O S  D E  T R A B A J O --"<<endl;
-	cout<<"-----------------------------------------"<<endl;
-	cout<<"[1] Agregar un espacio de trabajo"<<endl;
-	cout<<"[2] Ver los espacios de trabajo"<<endl;
-	cout<<"[3] Salir"<<endl;
-	cout<<"Que desea hacer?"<<endl;
-	cin>>opc_esp;
-	switch(opc_esp)
+	do
 	{
-		case 1:
-			espacio_nue();
-		break;
-		
-		case 2:
-			espacio_ver();
-		break;
-	}
+		gotoxy(40,1);cout<<"-- E S P A C I O S  D E  T R A B A J O --"<<endl;
+		cout<<"------------------------------------------------------------------------------------------------------------------------"<<endl;
+		gotoxy(6,3);cout<<"Administador: ";
+		gotoxy(75,3);cout<<"Espectador: ";
+		gotoxy(5,22);cout<<"[1] Agregar un espacio de trabajo"<<endl;
+		gotoxy(45,22);cout<<"[2] Ingresar a un espacio de trabajo"<<endl;
+		gotoxy(90,22);cout<<"[3] Salir"<<endl;
+		gotoxy(5,24);cout<<"Que desea hacer? ";
+		gotoxy(22,24);cin>>opc_esp;
+		switch(opc_esp)
+		{
+			case 1:
+				system("cls");
+				espacio_nue();
+				gotoxy(x,y);cout<<"-"<<nom_esp<<endl;
+				x++; y++;
+			break;
+			
+			case 2:
+				gotoxy(5,26);cout<<"**************************************************************************************************"<<endl;
+				while (verifica == false)
+				{
+					gotoxy(5,27);cout<<"A que espacio desea ingresar? "<<endl;
+					gotoxy(35,27);cin>>espacio;
+					for (int i=0;i<5;i++) 
+					{
+						if (espacio == espacios[i][0])
+						{
+							verifica = true;
+						}
+					}
+					if (vercorreo == false)
+					{
+						gotoxy(5,28);cout<<"Ingrese un espacio valido"<<endl;
+					}
+				}
+				system("cls");
+				menu_espacio();
+			break;
+			
+			default:
+				gotoxy(5,28);cout<<"Seleccione una opcion valida";
+			break;
+		}	
+	} while (opc_esp!=3);
 }
 
 void menu_inicio()
@@ -81,116 +155,107 @@ void menu_inicio()
 	}
 }
 
+void inicio()
+{
+	
+	do
+	{
+		while (vercorreo == false)
+		{
+			gotoxy(35,2);cout<<"-- I N I C I O  D E  S E S I O N  --"<<endl;
+			gotoxy(20,3);cout<<"-------------------------------------------------------------"<<endl;
+			gotoxy(20,5);cout<<"Ingrese su correo electronico: ";cin>>correo;
+			for (int i=0;i<id_user+1;i++) 
+			{
+				if (correo == usuarios[i][0])
+				{
+					vercorreo = true;
+				}
+			}
+			if (vercorreo == false)
+			{
+				system("cls");
+				gotoxy(20,6);cout<<"Ingrese un correo electronico valido"<<endl;
+			}
+		}
+		do
+		{
+			system("cls");
+			var=0;
+			gotoxy(35,2);cout<<"-- I N I C I O  D E  S E S I O N  --"<<endl;
+			gotoxy(20,3);cout<<"-------------------------------------------------------------"<<endl;
+			gotoxy(20,5);cout<<"Ingrese su contraseña: ";cin>>contra;
+			for (int i=0;i<id_user+1;i++) 
+			{
+				if (contra == usuarios[i][1])
+				{
+					verifica = true;
+				}
+			}
+			if(verifica == false)
+			{
+				cout<<"Contraseña incorrecta"<<endl;
+			}
+			else
+			{
+				cout<<"Inicio de sesion correcto. Bienvenido"<<endl;
+			}
+		} while (verifica == false);
+	} while (var==1);
+}
 
 void registros()
 {
-		system("cls");
-		id_user++;
-		cout<<"-- R E G I S T R A R S E --"<<endl;
-		cout<<"---------------------------"<<endl;
-		cout<<"Ingrese su correo electronico: "<<endl;
-		cin>>correo_reg;
-		usuarios[id_user][0]=correo_reg;
-		cout<<"Introduzca una contraseña: "<<endl;
-		cin>>contra_reg;
-		usuarios[id_user][1]=contra_reg;
-		cout<<"Cual es su nombre? "<<endl;
-		cin>>nombre_reg;
-		usuarios[id_user][2]=nombre_reg;
-		cout<<"Cual es su apellido? "<<endl;
-		cin>>ape_reg;
-		usuarios[id_user][3]=ape_reg;
-		
-		cout<<"Bienvenido "<<usuarios[id_user][2]<<" "<<usuarios[id_user][3] <<" ,su correo "<<usuarios[id_user][0]<<" ha sido registrado con exito"<<endl;
-}
-
-void inicio()
-{
 	system("cls");
-	cout<<"-- I N I C I O  D E  S E S I O N  --"<<endl;
-	do
-	{
-		cout<<"------------------------------------"<<endl;
-		cout<<"Ingrese su correo electronico: "<<endl;
-		cin>>correo;
-		for (int i=0;i<id_user+1;i++) 
-		{
-			if (correo == usuarios[i][0])
-			{
-				verifica = true;
-			}
-		}
-		if (verifica == false)
-		{
-			cout<<"Correo electronico incorrecto"<<endl;
-		}
-		else
-		{
-			while (acum!=1)
-			{
-				verifica = false;
-				cout<<"Ingrese su contraseña: "<<endl;
-				cin>>contra;
-				for (int i=0;i<id_user+1;i++) 
-				{
-					if (contra == usuarios[i][1])
-					{
-						verifica = true;
-					}
-				}
-				if(verifica == false)
-				{
-					cout<<"Contraseña incorrecta"<<endl;
-				}
-				else
-				{
-					cout<<"Inicio de sesion correcto. Bienvenido"<<endl;
-					acum=acum+1;
-				}
-			} 	 
-		}
-		if( acum==3)
-		{
-			cout<<"Error. Ha ingresado muchas veces una contraseña incorrecta"<<endl;
-		}
-	} while (verifica==false);
-}
-
-void menu()
-{
-	cout<<"[1] Registrarse"<<endl;
-	cout<<"[2] Iniciar sesion"<<endl;
+	id_user++;
+	gotoxy(40,2);cout<<"-- R E G I S T R A R S E --"<<endl;
+	gotoxy(20,3);cout<<"-------------------------------------------------------------"<<endl;
+	gotoxy(20,5);cout<<"Ingrese su nombre y apellidos: ";getline(cin,nombre_reg);
+	getline(cin,nombre_reg);
+	usuarios[id_user][2]=nombre_reg;
+	gotoxy(20,6);cout<<"Ingrese su correo electronico: ";cin>>correo_reg;
+	usuarios[id_user][0]=correo_reg;
+	gotoxy(20,7);cout<<"Ingrese una contraseña: ";cin>>contra_reg;
+	usuarios[id_user][1]=contra_reg;
+	gotoxy(20,10);cout<<"Presione una tecla para continuar..."<<endl;
+	getch();
 }
 
 int main()
 {
 	//Llenado de las matrices
-	usuarios[0][0]="cargarcia085@gmail.com";usuarios[0][1]="1234";usuarios[0][2]="Carlos";usuarios[0][3]="Garcia";
-	usuarios[1][0]="tomaterancio@hotmail.com";usuarios[1][1]="Tomatito45";usuarios[1][2]="Angel";usuarios[1][3]="Alvarez";
+	usuarios[0][0]="cargarcia085@gmail.com";usuarios[0][1]="1234";usuarios[0][2]="Carlos Garcia";
+	usuarios[1][0]="tomaterancio@hotmail.com";usuarios[1][1]="Tomatito45";usuarios[1][2]="Angel Alvarez";
 	
-
 	do
 	{
 		system("cls");
-		cout<<"-- B I E N V E N I D O  A  T R E L L O --"<<endl;
-		cout<<"-----------------------------------------"<<endl;
-		menu();
-		cout<<"Que desea hacer? "<<endl;
-		cin>>opc;
+		gotoxy(30,8);cout<<"-- B I E N V E N I D O  A  T R E L L O --"<<endl;
+		gotoxy(30,9);cout<<"-----------------------------------------"<<endl;
+		gotoxy(40,10);cout<<"[1] Iniciar sesion"<<endl;
+		gotoxy(40,11);cout<<"[2] Registrarse"<<endl;
+		gotoxy(40,12);cout<<"[3] Salir"<<endl;
+		gotoxy(40,13);cout<<"Que desea hacer? ";cin>>opc;
+		system("cls");
 		switch(opc)
 		{
 			case 1:
-				registros();
+				espacios_menu();
 			break;
 			
 			case 2:
-				menu_inicio();
+				registros();
 			break;
+			
+			case 3:
+				cout<<"Saliendo..."<<endl;
+				system("EXIT");
+			break; 
 			
 			default:
 				cout<<"seleccione una opcion valida"<<endl;
 			break;
 		}
-	} while (opc!=100);
+	} while (opc!=3);
 	return 0;
 }
