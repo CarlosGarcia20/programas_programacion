@@ -319,6 +319,13 @@ int menu()
 			case 6:
 				movimientos();
 			break;
+			
+			case 7:
+				system("cls");
+			break;
+			
+			default:
+				cout<<"Seleccione una opcion valida"<<endl;
 		}
 	} while (opc_men!=7);
 }
