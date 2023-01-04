@@ -6,9 +6,9 @@
 using namespace std;
 
 //Declaraciones de variables
-string correo_reg, contra_reg, nombre_reg, nom_tab;
-string correo, contra, espacio;
-int opc, opc_ini, opc_esp, acum, var=1, x=6, y=5, a=0, b=0;
+string correo_reg, contra_reg, nombre_reg, nom_tab, nom_lista;
+string correo, contra, espacio, tablero;
+int opc, opc_ini, opc_esp, acum, var=1, x=6, y=5, a=0, b=0, z=1, m=0, n=0, q=1, w=4;
 bool verifica=false, vercorreo=false;
 void gotoxy(int x,int y){  
   HANDLE hcon;  
@@ -24,15 +24,66 @@ void gotoxy(int x,int y){
 string usuarios[5][3];
 int id_user=1;
 string tableros[5];
+string listas[5];
 
 string espacios[5][5];
 string nom_esp;
 
+void crear_lista()
+{
+	gotoxy(35,12);cout<<"Ingrese el nombre de la lista: "<<endl;
+	gotoxy(66,12);cin>>nom_lista;
+	listas[n]=nom_lista;
+	n++;
+	system("cls");
+}
+
+void menu_tablero()
+{
+	do
+	{
+		gotoxy(0,0);cout<<"------------------------------------------------------------------------------------------------------------------------"<<endl;
+		gotoxy(0,2);cout<<"------------------------------------------------------------------------------------------------------------------------"<<endl;
+		gotoxy(50,1);cout<<"Nombre del tablero "<<tablero<<endl;
+		gotoxy(2,18);cout<<"[1] Crear lista"<<endl;
+		gotoxy(2,19);cout<<"[2] Crear tarjeta en lista"<<endl;
+		gotoxy(2,20);cout<<"[3] Eliminar tarjeta"<<endl;
+		gotoxy(2,21);cout<<"[4] Mover tarjeta"<<endl;
+		gotoxy(2,22);cout<<"[5] Salir"<<endl;
+		gotoxy(2,23);cout<<"Que desea hacer? "<<endl;
+		gotoxy(19,23);cin>>opc;
+		
+		switch (opc)
+		{
+			case 1:
+				system("cls");
+				crear_lista();
+				gotoxy(2,3);cout<<"Nombre de la lista: "<<endl;
+				for (int i=0;i<n;i++)
+				{
+					gotoxy(2,5);cout<<"*"<<listas[i]<<endl;		
+				}
+			break;
+			
+			case 2:
+				
+			break;
+			
+			default:
+				gotoxy(2,25);cout<<"Seleccione una opcion valida"<<endl;
+				system("cls");
+		}
+	} while(opc!=5);
+}
+
+
 void crear_tab()
 {
-	cout<<"Ingrese el nombre del tablero "<<endl;
+	gotoxy(43,13);cout<<"Ingrese el nombre del tablero: "<<endl;
+	gotoxy(74,13);getline(cin, nom_tab);
 	getline(cin, nom_tab);
-	getline(cin, nom_tab);
+	tableros[m]=nom_tab;
+	m++;
 	system("cls");
 }
 
@@ -64,12 +115,34 @@ void menu_espacio()
 			break;
 			
 			case 2:
-			
+				while (q==1)
+				{
+					gotoxy(5,27);cout<<"A que tablero desea ingresar? "<<endl;
+					gotoxy(35,27);cin>>tablero;
+					for (int i=0;i<5;i++) 
+					{
+						if (tablero == tableros[i])
+						{
+							verifica = true;
+							q=0;
+						}
+					}
+					if (vercorreo == false)
+					{
+						gotoxy(5,28);cout<<"Ingrese un tablero valido"<<endl;
+					}
+				}
+				system("cls");
+				menu_tablero();
 			break;
 			
 			case 3:
 				
 			break;
+			
+			default:
+				gotoxy(5,30);cout<<"Seleccione una opcion valida"<<endl;
+				system("cls");
 		}
 	}while (opc!=4);
 }
@@ -109,7 +182,7 @@ void espacios_menu()
 			
 			case 2:
 				gotoxy(5,26);cout<<"**************************************************************************************************"<<endl;
-				while (verifica == false)
+				while (z==1)
 				{
 					gotoxy(5,27);cout<<"A que espacio desea ingresar? "<<endl;
 					gotoxy(35,27);cin>>espacio;
@@ -118,6 +191,7 @@ void espacios_menu()
 						if (espacio == espacios[i][0])
 						{
 							verifica = true;
+							z=0;
 						}
 					}
 					if (vercorreo == false)
@@ -199,6 +273,7 @@ void inicio()
 			else
 			{
 				cout<<"Inicio de sesion correcto. Bienvenido"<<endl;
+				system("cls");
 			}
 		} while (verifica == false);
 	} while (var==1);
@@ -240,7 +315,8 @@ int main()
 		switch(opc)
 		{
 			case 1:
-				espacios_menu();
+				menu_espacio();
+				
 			break;
 			
 			case 2:
