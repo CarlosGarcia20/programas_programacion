@@ -422,7 +422,7 @@ int main()
 		switch(opc)
 		{
 			case 1:
-				
+				inicio();
 				espacios_menu();
 			break;
 			
